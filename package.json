@@ -1,0 +1,19 @@
+{
+  "name": "citrea-bot",
+  "version": "1.0.0",
+  "description": "Automation bot for Citrea network",
+  "main": "src/index.js",
+  "scripts": {
+    "compile": "node src/scripts/compile.js",
+    "start": "npm run compile && node src/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cli-progress": "^3.12.0",
+    "ethers": "^5.7.2",
+    "log-update": "^6.1.0",
+    "solc": "^0.8.20",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  }
+}

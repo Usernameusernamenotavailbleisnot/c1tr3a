@@ -1,0 +1,61 @@
+{
+    "tasks": {
+        "self_transfer": {
+            "enabled": false,
+            "settings": {
+                "amount": {
+                    "min": 0.00001,
+                    "max": 0.00002,
+                    "decimals": 6
+                },
+                "repeat_times": {
+                    "min": 3,
+                    "max": 10
+                }
+            }
+        },
+        "contract_deploy": {
+            "enabled": false,
+            "settings": {
+                "repeat_times": {
+                    "min": 1,
+                    "max": 1
+                },
+                "contract_types": ["ERC20", "SimpleStorage", "NFTMinter", "SimpleSwap"],
+                "token_supply": {
+                    "min": 1000,
+                    "max": 1000000
+                }
+            }
+        },
+        "swap": {
+            "enabled": true,
+            "settings": {
+                "repeat_times": {
+                    "min": 5,
+                    "max": 10
+                },
+                "cbtc_to_usdc": {
+                    "enabled": true,
+                    "amount": {
+                        "min": 0.0001,
+                        "max": 0.0002
+                    },
+                    "decimals": 6
+                },
+                "usdc_to_cbtc": {
+                    "enabled": true,
+                    "amount": {
+                        "min": 0.0001,
+                        "max": 0.0002
+                    },
+                    "decimals": 6
+                }
+            }
+        }
+    },
+    "delay": {
+        "between_tasks": 5000,
+        "between_wallets": 10
+    }
+}
