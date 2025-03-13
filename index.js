@@ -466,50 +466,54 @@ async function processWallet(privateKey, index, total, config) {
 
         // Swaps
         if (config.tasks.swap.enabled) {
-            // CBTC to USDC
-            if (config.tasks.swap.settings.cbtc_to_usdc.enabled) {
-                const settings = config.tasks.swap.settings.cbtc_to_usdc;
-                const amount = getRandomNumber(
-                    settings.amount.min,
-                    settings.amount.max,
-                    settings.decimals
-                );
-                
-                logger.info('Initiating CBTC to USDC swap', { 
-                    walletIndex: index + 1,
-                    amount: `${amount} CBTC`
-                });
-                
-                const tx = await bot.swapCBTCForUSDC(amount);
-                logger.info('Swap successful', { 
-                    walletIndex: index + 1,
-                    txHash: tx.transactionHash
-                });
-
-                await sleep(config.delay.between_tasks);
-            }
-
-            // USDC to CBTC
-            if (config.tasks.swap.settings.usdc_to_cbtc.enabled) {
-                const settings = config.tasks.swap.settings.usdc_to_cbtc;
-                const amount = getRandomNumber(
-                    settings.amount.min,
-                    settings.amount.max,
-                    settings.decimals
-                );
-                
-                logger.info('Initiating USDC to CBTC swap', { 
-                    walletIndex: index + 1,
-                    amount: `${amount} USDC`
-                });
-                
-                const tx = await bot.swapUSDCForCBTC(amount);
-                logger.info('Swap successful', { 
-                    walletIndex: index + 1,
-                    txHash: tx.transactionHash
-                });
-
-                await sleep(config.delay.between_tasks);
+            const settings = config.tasks.swap.settings;
+            // Tambahkan loop untuk mengulang sesuai repeat_times
+            for (let i = 0; i < settings.repeat_times.min; i++) {
+                // CBTC to USDC
+                if (settings.cbtc_to_usdc.enabled) {
+                    const amount = getRandomNumber(
+                        settings.cbtc_to_usdc.amount.min,
+                        settings.cbtc_to_usdc.amount.max,
+                        settings.cbtc_to_usdc.decimals
+                    );
+                    
+                    logger.info('Initiating CBTC to USDC swap', { 
+                        walletIndex: index + 1,
+                        amount: `${amount} CBTC`,
+                        iteration: `${i+1}/${settings.repeat_times.min}`
+                    });
+                    
+                    const tx = await bot.swapCBTCForUSDC(amount);
+                    logger.info('Swap successful', { 
+                        walletIndex: index + 1,
+                        txHash: tx.transactionHash
+                    });
+        
+                    await sleep(config.delay.between_tasks);
+                }
+        
+                // USDC to CBTC
+                if (settings.usdc_to_cbtc.enabled) {
+                    const amount = getRandomNumber(
+                        settings.usdc_to_cbtc.amount.min,
+                        settings.usdc_to_cbtc.amount.max,
+                        settings.usdc_to_cbtc.decimals
+                    );
+                    
+                    logger.info('Initiating USDC to CBTC swap', { 
+                        walletIndex: index + 1,
+                        amount: `${amount} USDC`,
+                        iteration: `${i+1}/${settings.repeat_times.min}`
+                    });
+                    
+                    const tx = await bot.swapUSDCForCBTC(amount);
+                    logger.info('Swap successful', { 
+                        walletIndex: index + 1,
+                        txHash: tx.transactionHash
+                    });
+        
+                    await sleep(config.delay.between_tasks);
+                }
             }
         }
 
